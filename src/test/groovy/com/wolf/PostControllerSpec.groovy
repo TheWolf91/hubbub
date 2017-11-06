@@ -33,4 +33,49 @@ class PostControllerSpec extends Specification {
         then: "a 404 is sent to the browser"
         response.status == 404
     }
+
+    def "Adding a valid new post to the timeline"() {
+        given: "A user with posts in the db"
+        User chuck = new User(loginId: 'chuck_norris', password: 'password').save(failOnError: true)
+        and: "a loginId parameter"
+        params.id = chuck.loginId
+        and: 'some content for the post'
+        params.content = "Chuck Norris can unit test entire applications with a single assert."
+        when: "addPost is invoked"
+        def model = controller.addPost()
+        then: "out flash message and redirect confirms the success"
+        flash.message == "Successfully created Post"
+        response.redirectedUrl == "/post/timeline/${chuck.loginId}"
+        Post.countByUser(chuck) == 1
+    }
+
+    def "Adding a post with no content to the timeline"() {
+        given: "A users with posts in db"
+        User chuck = new User(loginId: 'chuck_norris', password: 'password').save(failOnError: true)
+        and: "a loginId parameter"
+        params.id = chuck.loginId
+        when: "addPost is invoked"
+        def model = controller.addPost()
+        then: "out flash message and redirect confirms the fail"
+        flash.message == "Invalid or empty post"
+        response.redirectedUrl == "/post/timeline/${chuck.loginId}"
+        Post.countByUser(chuck) == 0
+    }
+
+    @spock.lang.Unroll
+    def "Testing id of #suppliedId redirects to #expectedUrl"() {
+        given:
+        params.id = suppliedId
+
+        when: "controller is invoked"
+        controller.home()
+
+        then:
+        response.redirectedUrl == expectedUrl
+
+        where:
+        suppliedId | expectedUrl
+        'joe_cool' | '/post/timeline/joe_cool'
+        null       | '/post/timeline/chuck_norris'
+    }
 }
