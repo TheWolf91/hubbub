@@ -1,7 +1,6 @@
 package com.wolf
 
 class Profile {
-    User user
     byte[] photo
     String fullName
     String bio
@@ -10,6 +9,11 @@ class Profile {
     String timezone
     String country
     String jabberAddress
+
+    static belongsTo = [ user : User ]
+    static mapping = {
+        user lazy: false
+    }
 
     static constraints = {
         fullName blank: false

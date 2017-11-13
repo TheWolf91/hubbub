@@ -35,31 +35,17 @@ class PostControllerSpec extends Specification {
     }
 
     def "Adding a valid new post to the timeline"() {
-        given: "A user with posts in the db"
-        User chuck = new User(loginId: 'chuck_norris', password: 'password').save(failOnError: true)
-        and: "a loginId parameter"
-        params.id = chuck.loginId
-        and: 'some content for the post'
-        params.content = "Chuck Norris can unit test entire applications with a single assert."
-        when: "addPost is invoked"
-        def model = controller.addPost()
-        then: "out flash message and redirect confirms the success"
-        flash.message == "Successfully created Post"
-        response.redirectedUrl == "/post/timeline/${chuck.loginId}"
-        Post.countByUser(chuck) == 1
-    }
+        given: "a mock post service"
+        def mockPostService = Mock(PostService)
+        1 * mockPostService.createPost(_, _) >> new Post(content: "Mock post")
+        controller.postService = mockPostService
 
-    def "Adding a post with no content to the timeline"() {
-        given: "A users with posts in db"
-        User chuck = new User(loginId: 'chuck_norris', password: 'password').save(failOnError: true)
-        and: "a loginId parameter"
-        params.id = chuck.loginId
-        when: "addPost is invoked"
-        def model = controller.addPost()
-        then: "out flash message and redirect confirms the fail"
-        flash.message == "Invalid or empty post"
-        response.redirectedUrl == "/post/timeline/${chuck.loginId}"
-        Post.countByUser(chuck) == 0
+        when: "controller is invoked"
+        def result = controller.addPost("joe_cool", "Posting up a storm")
+
+        then: "redirected to timeline, flash message tells us all is well"
+        flash.message ==~ /Added new post: Mock.*/
+        response.redirectedUrl == "/post/timeline/joe_cool"
     }
 
     @spock.lang.Unroll

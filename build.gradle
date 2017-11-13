@@ -52,6 +52,7 @@ dependencies {
     runtime "com.h2database:h2"
     runtime "org.apache.tomcat:tomcat-jdbc"
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
+    testCompile group: "org.spockframework", name: "spock-core", version: "1.1-groovy-2.4"
     testCompile "org.grails:grails-test-mixins:3.3.0"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"

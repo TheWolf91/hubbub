@@ -3,6 +3,7 @@ package com.wolf
 class PostController {
 
     static scaffold = Post
+    def postService
 
     def home() {
         if (!params.id) {
@@ -20,20 +21,14 @@ class PostController {
         }
     }
 
-    def addPost() {
-        def user = User.findByLoginId(params.id)
-        if (user) {
-            def post = new Post(params)
-            user.addToPosts(post)
-            if (user.save()) {
-                flash.message = "Successfully created Post"
-            } else {
-                flash.message = "Invalid or empty post"
-            }
-        } else {
-            flash.message = "Invalid User Id"
+    def addPost(String id, String content) {
+        try {
+            def newPost = postService.createPost(id, content)
+            flash.message = "Added new post: ${newPost.content}"
+        } catch (PostException pe) {
+            flash.message = pe.message
         }
-        redirect(action: 'timeline', id: params.id)
+        redirect(action: 'timeline', id: id)
     }
 
 }
