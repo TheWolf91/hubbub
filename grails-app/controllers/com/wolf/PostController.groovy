@@ -21,6 +21,10 @@ class PostController {
         }
     }
 
+    def personal() {
+        redirect(action: 'timeline', id: session.id)
+    }
+
     def addPost(String id, String content) {
         try {
             def newPost = postService.createPost(id, content)

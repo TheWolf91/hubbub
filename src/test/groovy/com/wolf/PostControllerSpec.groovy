@@ -3,9 +3,10 @@ package com.wolf
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
+import grails.test.mixin.web.InterceptorUnitTestMixin
 
 @TestFor(PostController)
-@Mock([User,Post])
+@Mock([User,Post, LameSecurityInterceptor])
 class PostControllerSpec extends Specification {
 
     def "Get a users timeline given their id"() {
@@ -45,7 +46,7 @@ class PostControllerSpec extends Specification {
 
         then: "redirected to timeline, flash message tells us all is well"
         flash.message ==~ /Added new post: Mock.*/
-        response.redirectedUrl == "/post/timeline/joe_cool"
+        response.redirectedUrl == "/users/joe_cool"
     }
 
     @spock.lang.Unroll
@@ -61,7 +62,21 @@ class PostControllerSpec extends Specification {
 
         where:
         suppliedId | expectedUrl
-        'joe_cool' | '/post/timeline/joe_cool'
-        null       | '/post/timeline/chuck_norris'
+        'joe_cool' | '/users/joe_cool'
+        null       | '/users/chuck_norris'
     }
+
+    /* other tests here */
+//    def "Exercising security filter for unauthenticated user"() {
+//        given: "a mock post service"
+//        def mockPostService = Mock(PostService)
+//        mockPostService.createPost("joe_cool", "A first post") >> new Post()
+//        controller.postService = mockPostService
+//
+//        when: "controller is invoked"
+//        def result = controller.addPost("glen_a_smith", "Posting up a storm")
+//
+//        then:
+//        response.redirectedUrl == '/login/form'
+//    }
 }
