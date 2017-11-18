@@ -1,7 +1,6 @@
 package com.wolf
 
 class PostController {
-
     static scaffold = Post
     def postService
 
