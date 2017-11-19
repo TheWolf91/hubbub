@@ -21,7 +21,8 @@ class PostController {
     }
 
     def personal() {
-        redirect(action: 'timeline', id: session.id)
+        def user = User.findByLoginId('chuck_norris')
+        redirect(action: 'timeline', id: user.loginId)
     }
 
     def addPost(String id, String content) {
@@ -32,6 +33,22 @@ class PostController {
             flash.message = pe.message
         }
         redirect(action: 'timeline', id: id)
+    }
+
+    def addPostAjax(String id, String content) {
+       def user = User.findByLoginId(id)
+        try {
+            def newPost = postService.createPost(id, content)
+            def recentPosts = Post.findAllByUser(user,
+                    [sort: 'dateCreated', order: 'desc', max: 20])
+            render template: 'postEntry',
+                    collection: recentPosts,
+                    var: 'post'
+        } catch (PostException pe) {
+            render {
+                div(class:"errors", pe.message)
+            }
+        }
     }
 
     def global() {

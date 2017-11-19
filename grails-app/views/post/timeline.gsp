@@ -18,10 +18,30 @@
     </div>
 </g:if>
 <div id="newPost">
-    <g:render template="newPost" bean="${user}"/>
+    <g:form>
+        <g:hiddenField name="id" value="${user.loginId}" />
+        <g:textArea id="postContent" name="content" rows="3" cols="50"/><br/>
+        <g:submitToRemote value="Post"
+                          url="[controller: 'post', action: 'addPostAjax']"
+                          update="allPosts"
+                          onSuccess="clearPost(data)"
+                          onLoading="showSpinner(true)"
+                          onComplete="showSpinner(false)"
+        />
+        <g:img id="spinner" style="display: none" dir="images" file="spinner.gif" alt="Loading..."/>
+    </g:form>
 </div>
 <div id="allPosts">
     <g:render template="postEntry" collection="${user.posts}" var="post"/>
 </div>
+<g:javascript>
+    function clearPost(e) {
+        $('#postContent').val('');
+    }
+    function showSpinner(visible) {
+        if (visible) $('#spinner').show();
+        else $('#spinner').hide();
+    }
+</g:javascript>
 </body>
 </html>

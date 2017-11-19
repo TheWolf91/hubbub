@@ -5,8 +5,7 @@
     <g:external dir="css" file="hubbub.css"/>
     <g:external dir="css" file="main.css"/>
     <g:external dir="css" file="bootstrap.min.css"/>
-    <g:external dir="js" file="bootstrap.min.js"/>
-    <g:layoutHead />
+    <asset:javascript src="application.js"/>
 </head>
 <body>
 <div>
