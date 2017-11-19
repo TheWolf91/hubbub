@@ -19,10 +19,9 @@
 </g:if>
 <div id="newPost">
     <g:form>
-        <g:hiddenField name="id" value="${user.loginId}" />
         <g:textArea id="postContent" name="content" rows="3" cols="50"/><br/>
         <g:submitToRemote value="Post"
-                          url="[controller: 'post', action: 'addPostAjax']"
+                          url="[controller: 'post', action: 'addPostAjax', id: user.loginId]"
                           update="allPosts"
                           onSuccess="clearPost(data)"
                           onLoading="showSpinner(true)"
