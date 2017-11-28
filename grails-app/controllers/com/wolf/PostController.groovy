@@ -1,5 +1,9 @@
 package com.wolf
 
+import grails.plugin.cache.CacheEvict
+import grails.plugin.cache.CachePut
+import grails.plugin.cache.Cacheable
+
 class PostController {
     static scaffold = Post
     def postService
@@ -20,6 +24,7 @@ class PostController {
         }
     }
 
+    @Cacheable('userTimeline')
     def personal() {
         def user = User.findByLoginId('chuck_norris')
         redirect(action: 'timeline', id: user.loginId)
@@ -35,6 +40,7 @@ class PostController {
         redirect(action: 'timeline', id: id)
     }
 
+    @CacheEvict(value = 'userTimeline', allEntries = true)
     def addPostAjax(String id, String content) {
        def user = User.findByLoginId(id)
         try {
@@ -59,6 +65,7 @@ class PostController {
         }
     }
 
+    @Cacheable('globalTimeline')
     def global() {
         [posts : Post.list(params), postCount : Post.count()]
     }

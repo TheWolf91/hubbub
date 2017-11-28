@@ -1,3 +1,5 @@
+package com.wolf
+
 import com.wolf.PostController
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor

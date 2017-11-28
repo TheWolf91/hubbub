@@ -29,6 +29,21 @@ endpoints:
     jmx:
         enabled: true
 
+#---
+#grails:
+#  mail.host: "com.icegreen.greenmail.util.ServerSetupTest.SMTP.host"
+#  serverURL: "http://localhost:8080/${appName}"
+#grails:
+#     mail:
+#        host: "smtp.libero.it"
+#        port: 25
+#        username: "grailsdeveloper@libero.it"
+#        password: "secret"
+#        tls: true
+#        properties.mail.smtp:
+#            auth: true
+#            starttls.enable: true
+#            ssl.trust: "smtp.libero.it"
 ---
 grails:
     mime:

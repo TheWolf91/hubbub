@@ -1,4 +1,4 @@
-package com.wolf.pages
+package com.wolf.functional.pages
 
 import geb.Page
 class TimelinePage extends Page {

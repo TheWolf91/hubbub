@@ -1,5 +1,10 @@
 package com.wolf
 
+import com.icegreen.greenmail.junit.GreenMailRule
+import com.icegreen.greenmail.util.GreenMail
+import com.icegreen.greenmail.util.ServerSetup
+import grails.plugins.mail.MailService
+
 class UserController {
     static scaffold = User
 
@@ -55,6 +60,21 @@ class UserController {
         }
     }
 
+    def mailService
+    def greenMail
+    def welcomeEmail(String email) {
+        if (params.email) {
+            mailService.sendMail {
+                to params.email
+                from "grailsdeveloper@libero.it"
+                subject "Welcome to Hubbub!"
+                html view: "/user/welcomeEmail", model: [ email: email ]
+            }
+
+            flash.message = "Welcome aboard"
+        }
+        redirect(uri: "/")
+    }
 }
 
 class UserRegistrationCommand {

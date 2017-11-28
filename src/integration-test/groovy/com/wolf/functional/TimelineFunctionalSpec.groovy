@@ -1,6 +1,6 @@
-package com.wolf
+package com.wolf.functional
 
-import com.wolf.pages.*
+import com.wolf.functional.pages.*
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 

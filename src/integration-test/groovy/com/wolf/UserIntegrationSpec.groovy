@@ -1,13 +1,23 @@
 package com.wolf
 
+import com.icegreen.greenmail.util.GreenMailUtil
+import com.icegreen.greenmail.util.ServerSetup
+import com.icegreen.greenmail.util.ServerSetupTest
+import grails.plugin.greenmail.GreenMail
+import grails.plugins.mail.MailService
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
+import org.springframework.web.context.request.RequestAttributes
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import spock.lang.Specification
 
+@Mock(UserController)
 @Integration
 @Rollback
 class UserIntegrationSpec extends Specification {
-
     def "Saving our first user to the database"() {
 
         given: "A brand new user"
@@ -105,6 +115,23 @@ class UserIntegrationSpec extends Specification {
         then: "Follower counts should match following people"
         joe.following.size() == 2
         jill.following.size() == 1
+    }
+
+    def GreenMail greenMail
+    def "Welcome email is generated and sent"() {
+        given: "usercontroller"
+        greenMail.start()
+        def controller = new UserController()
+
+        when: "Send a message"
+        controller.welcomeEmail("tester@email.com")
+        then:
+//        assertEquals(1, greenMail.getReceivedMessages().length)
+        greenMail.getMessagesCount() == 1
+
+//        assertEquals("Hi, tester@email.com. Great to have you on board.", GreenMailUtil.getBody(message))
+//        assertEquals("grailsdeveloper@liberoit", GreenMailUtil.getAddressList(message.from))
+//        assertEquals("Welcome to Hubbub!", message.subject)
     }
 
 }

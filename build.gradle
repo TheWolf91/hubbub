@@ -26,7 +26,17 @@ repositories {
 }
 
 dependencies {
+    // MAIL
+    compile "org.grails.plugins:mail:2.0.0.RC6"
+    compile 'org.grails.plugins:greenmail:2.0.0.RC2'
     compile 'org.grails.plugins:ajax-tags:1.0.0'
+
+    // CACHE
+    compile 'org.grails.plugins:cache-ehcache:3.0.0.M1'
+
+    // DB MIGRATION
+    compile 'org.grails.plugins:database-migration:3.0.3'
+
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -40,7 +50,6 @@ dependencies {
     compile "org.grails:grails-plugin-services"
     compile "org.grails:grails-plugin-url-mappings"
     compile "org.grails:grails-plugin-interceptors"
-    compile "org.grails.plugins:cache"
     compile "org.grails.plugins:async"
     compile "org.grails.plugins:scaffolding"
     compile "org.grails.plugins:events"
@@ -54,12 +63,13 @@ dependencies {
     runtime "org.apache.tomcat:tomcat-jdbc"
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
     testCompile group: "org.spockframework", name: "spock-core", version: "1.1-groovy-2.4"
+    testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.1-groovy-2.4'
     testCompile "org.grails:grails-test-mixins:3.3.0"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-web-testing-support"
 
-
+    //GEB FRAMEWORK
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
     testRuntime "org.seleniumhq.selenium:selenium-support:2.53.1"
     testCompile "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
