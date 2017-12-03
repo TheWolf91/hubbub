@@ -6,6 +6,7 @@ class Post {
 
     static belongsTo = [user : User]
     static hasMany = [tags : Tag]
+//    static searchable = true
 
     static constraints = {
         content blank: false

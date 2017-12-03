@@ -4,6 +4,7 @@ buildscript {
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
+        classpath 'org.grails.plugins:database-migration:3.0.3' // DB MIGRATION
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.2"
@@ -25,6 +26,23 @@ repositories {
     maven { url "https://repo.grails.org/grails/core" }
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir 'grails-app/migrations'
+        }
+    }
+}
+
+ext {
+    grails {
+        pathingJar = true
+    }
+}
+
+def elasticsearchVersion = '5.4.1'
+ext['elasticsearch.version'] = elasticsearchVersion
+
 dependencies {
     // MAIL
     compile "org.grails.plugins:mail:2.0.0.RC6"
@@ -36,6 +54,10 @@ dependencies {
 
     // DB MIGRATION
     compile 'org.grails.plugins:database-migration:3.0.3'
+    compile 'org.liquibase:liquibase-core:3.5.3'
+
+    // SEARCH PLUGIN
+//    compile "org.grails.plugins:elasticsearch:1.4.1"
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
@@ -82,9 +104,9 @@ integrationTest {
     systemProperties System.properties
 }
 
-
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
+    jvmArgs = ['-Des.path.home=C:/Users/The_Wolf/IdeaProjects/elasticsearch-6.0.0']
     addResources = true
 }
 

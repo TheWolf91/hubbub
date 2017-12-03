@@ -7,6 +7,7 @@ class User {
 
     static hasOne = [ profile: Profile ]
     static hasMany = [ posts: Post, tags: Tag, following: User ]
+//    static searchable = true
 
     static constraints = {
         loginId size: 3..20, unique: true, blank: false
