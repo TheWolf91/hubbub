@@ -44,6 +44,9 @@ def elasticsearchVersion = '5.4.1'
 ext['elasticsearch.version'] = elasticsearchVersion
 
 dependencies {
+    // SECURITY
+    compile 'org.grails.plugins:spring-security-core:3.2.0'
+
     // MAIL
     compile "org.grails.plugins:mail:2.0.0.RC6"
     compile 'org.grails.plugins:greenmail:2.0.0.RC2'

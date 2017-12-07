@@ -1,10 +1,9 @@
 package com.wolf
 
+import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import org.spockframework.mock.runtime.MockController
 import spock.lang.Specification
-import spock.lang.Unroll
 
 @TestFor(UserController)
 @Mock([User, Profile])
@@ -16,13 +15,17 @@ class UserControllerSpec extends Specification {
         params.with {
             loginId = "glen_a_smith"
             password = "winnning"
-            homepage = "http://blogs.bytecode.com.au/glen"
         }
 
         and: "a set of profile parameters"
         params['profile.fullName'] = "Glen Smith"
         params['profile.email'] = "glen@bytecode.com.au"
         params['profile.homepage'] = "http://blogs.bytecode.com.au/glen"
+
+        and: "a mock security service"
+        controller.springSecurityService = Stub(SpringSecurityService) {
+            encodePassword("winnning") >> "HFDJDKALSJDF"
+        }
 
         when: "the user is registered"
         request.method = "POST"

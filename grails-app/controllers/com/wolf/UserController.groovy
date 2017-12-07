@@ -1,18 +1,23 @@
 package com.wolf
 
-import com.icegreen.greenmail.junit.GreenMailRule
-import com.icegreen.greenmail.util.GreenMail
-import com.icegreen.greenmail.util.ServerSetup
-import grails.plugins.mail.MailService
-
 class UserController {
     static scaffold = User
+
+    static navigation = [
+            [group:'tabs', action:'search', order: 90],
+            [action: 'advSearch', title: 'Advanced Search', order: 95],
+            [action: 'register', order: 99, isVisible: { true }]
+    ]
+
+    def springSecurityService
 
     def search() {}
 
     def results(String loginId) {
-        def users = User.where {loginId =~ "%${loginId}"}.list()
-        return [users: users, term: params.loginId, totalUsers: User.count()]
+        def users = User.where { loginId =~ "%${loginId}%" }.list()
+        return [ users: users,
+                 term: params.loginId,
+                 totalUsers: User.count() ]
     }
 
     def advSearch() {}
@@ -39,14 +44,32 @@ class UserController {
     def register() {
         if (request.method == "POST") {
             def user = new User(params)
-            user.properties = params //workaround che permette la corretta validazione successiva "validate()"
+            user.passwordHash = springSecurityService.encodePassword(params.password)
+            user.properties = params
             if (user.validate()) {
                 user.save()
                 flash.message = "Successfully Created User"
-                redirect(uri: "/")
+                redirect(uri: '/')
             } else {
-                flash.message = user.properties.toMapString()
+                flash.message = "Error Registering User"
                 return [ user: user ]
+            }
+        }
+    }
+
+    def register2(UserRegistrationCommand urc) {
+        if (urc.hasErrors()) {
+            render view: "register", model: [ user : urc ]
+        } else {
+            def user = new User(urc.properties)
+            user.passwordHash = springSecurityService.encodePassword(urc.password)
+            user.profile = new Profile(urc.properties)
+            if (user.validate() && user.save()) {
+                flash.message = "Welcome aboard, ${urc.fullName ?: urc.loginId}"
+                redirect(uri: '/')
+            } else {
+                // maybe not unique loginId?
+                return [ user : urc ]
             }
         }
     }
@@ -60,17 +83,13 @@ class UserController {
         }
     }
 
-    def mailService
-    def greenMail
     def welcomeEmail(String email) {
-        if (params.email) {
-            mailService.sendMail {
-                to params.email
-                from "grailsdeveloper@libero.it"
+        if (email) {
+            sendMail {
+                to email
                 subject "Welcome to Hubbub!"
                 html view: "/user/welcomeEmail", model: [ email: email ]
             }
-
             flash.message = "Welcome aboard"
         }
         redirect(uri: "/")
@@ -89,6 +108,7 @@ class UserRegistrationCommand {
     String timezone
     String country
     String jabberAddress
+
     static constraints = {
         importFrom Profile
         importFrom User
@@ -100,23 +120,6 @@ class UserRegistrationCommand {
                 validator: { passwd2, urc ->
                     return passwd2 == urc.password
                 })
-    }
-
-    def register2(UserRegistrationCommand urc) {
-        if (urc.hasErrors()) {
-            render view: "register", model: [ user : urc ]
-        } else {
-            def user = new User(urc.properties)
-            user.profile = new Profile(urc.properties)
-            if (user.validate() && user.save()) {
-                flash.message =
-                        "Welcome aboard, ${urc.fullName ?: urc.loginId}"
-                redirect(uri: '/')
-            } else {
-// maybe not unique loginId?
-                return [ user : urc ]
-            }
-        }
     }
 }
 

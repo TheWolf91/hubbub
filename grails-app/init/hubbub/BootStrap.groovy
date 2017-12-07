@@ -1,8 +1,12 @@
 package hubbub
 import com.wolf.*
+import sun.security.provider.SHA2
+
 import static java.util.Calendar.*
 
 class BootStrap {
+
+    def springSecurityService
 
     def init = { servletContext ->
         environments {
@@ -14,7 +18,7 @@ class BootStrap {
             }
         }
 
-        // Admin user is required for all environments
+//         Admin user is required for all environments
         createAdminUserIfRequired()
     }
 
@@ -24,36 +28,36 @@ class BootStrap {
         def now = new Date()
         def chuck = new User(
                 loginId: "chuck_norris",
-                password: "highkick",
+                passwordHash: "highkick",
                 profile: new Profile(fullName: "Chuck Norris", email: "chuck@nowhere.net"),
                 dateCreated: now).save(failOnError: true)
         def glen = new User(
                 loginId: "glen",
-                password: "sheldon",
+                passwordHash: "sheldon",
                 profile: new Profile(fullName: "Glen Smith", email: "glen@nowhere.net"),
                 dateCreated: now).save(failOnError: true)
         def peter = new User(
                 loginId: "peter",
-                password: "mandible",
+                passwordHash: "mandible",
                 profile: new Profile(fullName: "Peter Ledbrook", email: "peter@nowhere.net"),
                 dateCreated: now).save(failOnError: true)
         def frankie = new User(
                 loginId: "frankie",
-                password: "testing",
+                passwordHash: "testing",
                 profile: new Profile(fullName: "Frankie Goes to Hollywood", email: "frankie@nowhere.net"),
                 dateCreated: now).save(failOnError: true)
         def sara = new User(
                 loginId: "sara",
-                password: "crikey",
+                passwordHash: "crikey",
                 profile: new Profile(fullName: "Sara Miles", email: "sara@nowhere.net"),
                 dateCreated: now - 2).save(failOnError: true)
         def phil = new User(
                 loginId: "phil",
-                password: "thomas",
+                passwordHash: "thomas",
                 profile: new Profile(fullName: "Phil Potts", email: "phil@nowhere.net"),
-                dateCreated: now)
+                dateCreated: now).save(failOnError: true)
         def dillon = new User(loginId: "dillon",
-                password: "crikey",
+                passwordHash: "crikey",
                 profile: new Profile(fullName: "Dillon Jessop", email: "dillon@nowhere.net"),
                 dateCreated: now - 2).save(failOnError: true)
 
@@ -123,7 +127,6 @@ class BootStrap {
 
         dillon.dateCreated = now - 2
         dillon.save(failOnError: true, flush: true)
-
     }
 
     private createAdminUserIfRequired() {
@@ -132,11 +135,16 @@ class BootStrap {
             println "Fresh Database. Creating ADMIN user."
 
             def profile = new Profile(email: "admin@yourhost.com", fullName: "Administrator")
-            new User(loginId: "admin", password: "secret", profile: profile).save(failOnError: true)
+            def adminRole = new Role(authority: "ROLE_ADMIN").save(failOnError: true)
+            def adminUser = new User(
+                    loginId: "admin",
+                    passwordHash: "secret",
+                    profile: profile,
+                    enabled: true).save(failOnError: true)
+            UserRole.create adminUser, adminRole, true
         }
         else {
             println "Existing admin user, skipping creation"
         }
     }
-
 }

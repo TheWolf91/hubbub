@@ -11,7 +11,7 @@ class PostIntegrationSpec extends Specification {
     def "Adding posts to user links post to user"() {
 
         given: "A brand new user"
-        def user = new User(loginId: "joe", password: "secret")
+        def user = new User(loginId: "joe", passwordHash: "secret")
         user.save(failOnError: true)
 
         when: "Several posts are added to the user"
@@ -26,7 +26,7 @@ class PostIntegrationSpec extends Specification {
     def "Ensure posts linked to a user can be retrieved"() {
 
         given: "A user with several posts"
-        def user = new User(loginId: 'joe', password: 'secret')
+        def user = new User(loginId: 'joe', passwordHash: 'secret')
         user.addToPosts(new Post(content: "First"))
         user.addToPosts(new Post(content: "Second"))
         user.addToPosts(new Post(content: "Third"))
@@ -45,7 +45,7 @@ class PostIntegrationSpec extends Specification {
     def "Exercise tagging several posts with various tags"() {
 
         given: "A user with a set of tags"
-        def user = new User(loginId: 'joe', password: 'secret')
+        def user = new User(loginId: 'joe', passwordHash: 'secret')
         def tagGroovy = new Tag(name: 'groovy')
         def tagGrails = new Tag(name: 'grails')
         user.addToTags(tagGroovy)

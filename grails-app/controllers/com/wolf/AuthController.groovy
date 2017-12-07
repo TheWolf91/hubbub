@@ -1,6 +1,6 @@
 package com.wolf
 
-class LoginController {
+class AuthController {
 
     def form() { }
 }

@@ -5,15 +5,19 @@
 </head>
 <body>
 <h1>Sign in</h1>
-<g:form action="signIn">
+<g:form uri="/login/authenticate" method="POST">
     <fieldset class="form">
         <div class="fieldcontain required">
-            <label for="loginId">Login ID</label>
-            <g:textField name="loginId" value="${loginId}"/>
+            <label for="username">Login ID</label>
+            <g:textField name="username" value="${loginId}"/>
         </div>
         <div class="fieldcontain required">
             <label for="password">Password</label>
             <g:passwordField name="password"/>
+        </div>
+        <div class="fieldcontain required">
+            <label for="_spring_security_remember_me">Remember me</label>
+            <g:checkBox name="_spring_security_remember_me"/>
         </div>
     </fieldset>
     <fieldset class="buttons">

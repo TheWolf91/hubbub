@@ -3,20 +3,18 @@ package hubbub
 class UrlMappings {
 
     static mappings = {
-        "/$controller/$action?/$id?(.$format)?"{
+        "/$controller/$action?/$id?(.$format)?" {
             constraints {
                 // apply constraints here
             }
         }
 
-        "/users/$id" {
-            controller = "post"
-            action = "timeline"
-        }
+        "/login/form"(controller: "auth", action: "form")
 
-        "/timeline/$id" {
+        "/timeline/chuck_norris" {
             controller = "post"
             action = "timeline"
+            id = "chuck_norris"
         }
 
         "/timeline" {
@@ -24,10 +22,13 @@ class UrlMappings {
             action = "personal"
         }
 
+        "/users/$id" {
+            controller = "post"
+            action = "timeline"
+        }
+
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
-
-
 }

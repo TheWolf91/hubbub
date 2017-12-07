@@ -21,7 +21,13 @@
             <li><g:link controller="user" action="search">Search</g:link></li>
             <li><g:link controller="user" action="advSearch">Advanced Search</g:link></li>
             <li><g:link controller="user" action="register">Register</g:link></li>
+
         </ul>
+        <sec:ifLoggedIn>
+            <g:form name="logoutForm" controller="logout" action="index">
+                <g:submitButton name="signOut" value="sign out"/>
+            </g:form>
+        </sec:ifLoggedIn>
     </nav>
     <div id="bd"><!-- start body -->
     <g:layoutBody/>

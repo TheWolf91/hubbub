@@ -1,20 +1,31 @@
 package com.wolf
 
-class User {
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
+import grails.compiler.GrailsCompileStatic
+
+class User implements Serializable {
+
     String loginId
-    String password
+    String passwordHash
+    boolean enabled = true
+    boolean accountExpired
+    boolean accountLocked
+    boolean passwordExpired
     Date dateCreated
 
+    static transients = ['springSecurityService']
     static hasOne = [ profile: Profile ]
     static hasMany = [ posts: Post, tags: Tag, following: User ]
-//    static searchable = true
+
+    Set<Role> getAuthorities() {
+        (UserRole.findAllByUser(this) as List<UserRole>)*.role as Set<Role>
+    }
 
     static constraints = {
         loginId size: 3..20, unique: true, blank: false
-        password size: 6..8, blank: false, validator: { passwd, user ->
-            return passwd != user.loginId
-        }
-
+        tags()
+        posts()
         profile nullable: true
     }
 

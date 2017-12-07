@@ -1,12 +1,12 @@
 package com.wolf
 
 import grails.plugin.cache.CacheEvict
-import grails.plugin.cache.CachePut
 import grails.plugin.cache.Cacheable
 
 class PostController {
     static scaffold = Post
     def postService
+    def springSecurityService
 
     def home() {
         if (!params.id) {
@@ -24,27 +24,27 @@ class PostController {
         }
     }
 
-    @Cacheable('userTimeline')
     def personal() {
-        def user = User.findByLoginId('chuck_norris')
-        redirect(action: 'timeline', id: user.loginId)
+        def user = springSecurityService.currentUser
+        render view: "timeline", model: [ user : user ]
     }
 
-    def addPost(String id, String content) {
+    def addPost(String content) {
+        def user = springSecurityService.currentUser
         try {
-            def newPost = postService.createPost(id, content)
+            def newPost = postService.createPost(user.loginId, content)
             flash.message = "Added new post: ${newPost.content}"
         } catch (PostException pe) {
             flash.message = pe.message
         }
-        redirect(action: 'timeline', id: id)
+        redirect(action: 'timeline', id: user.loginId)
     }
 
     @CacheEvict(value = 'userTimeline', allEntries = true)
-    def addPostAjax(String id, String content) {
-       def user = User.findByLoginId(id)
+    def addPostAjax(String content) {
+        def user = springSecurityService.currentUser
         try {
-            def newPost = postService.createPost(id, content)
+            def newPost = postService.createPost(user.loginId, content)
             def recentPosts = Post.findAllByUser(user,
                     [sort: 'dateCreated', order: 'desc', max: 20])
             render template: 'postEntry',

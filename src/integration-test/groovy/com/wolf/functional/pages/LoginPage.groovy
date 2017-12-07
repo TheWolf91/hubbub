@@ -5,7 +5,7 @@ class LoginPage extends Page {
     static url = "login/form"
 
     static content = {
-        loginIdField { $("input[name='loginId']") }
+        loginIdField { $("input[name='username']") }
         passwordField { $("input[name='password']") }
         signInButton { $("input[type='submit']") }
     }
