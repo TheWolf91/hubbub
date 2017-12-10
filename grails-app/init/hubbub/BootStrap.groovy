@@ -1,13 +1,14 @@
 package hubbub
 import com.wolf.*
+import grails.converters.XML
 import sun.security.provider.SHA2
+
+import java.text.SimpleDateFormat
 
 import static java.util.Calendar.*
 
 class BootStrap {
-
     def springSecurityService
-
     def init = { servletContext ->
         environments {
             development {

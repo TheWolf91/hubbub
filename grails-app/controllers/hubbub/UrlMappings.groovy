@@ -27,8 +27,10 @@ class UrlMappings {
             action = "timeline"
         }
 
+        "/api/posts"(resources: "postRest")
+
         "/"(view:"/index")
-        "500"(view:'/error')
+        "500"(controller: "error", action: "internalServer")
         "404"(view:'/notFound')
     }
 }

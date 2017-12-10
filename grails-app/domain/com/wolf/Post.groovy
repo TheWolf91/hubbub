@@ -1,5 +1,8 @@
 package com.wolf
 
+import grails.rest.Resource
+
+@Resource(uri="/posts")
 class Post {
     String content
     Date dateCreated
