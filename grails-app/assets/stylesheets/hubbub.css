@@ -130,3 +130,6 @@ dd {
     margin: 1em;
     font-weight: bold;
 }
+
+.charsLow { background-color: yellow !important; }
+.charsOverflow { background-color: red !important; }

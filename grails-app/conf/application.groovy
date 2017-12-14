@@ -44,11 +44,14 @@ grails.plugin.springsecurity.interceptUrlMap = [
         [pattern: '/**',             access: ['isAuthenticated()']]
 ]
 
+grails.plugin.springsecurity.useBasicAuth = true
+grails.plugin.springsecurity.basic.realmName = "Hubbub"
 grails.plugin.springsecurity.filterChain.chainMap = [
-	[pattern: '/assets/**',      filters: 'none'],
-	[pattern: '/**/js/**',       filters: 'none'],
-	[pattern: '/**/css/**',      filters: 'none'],
-	[pattern: '/**/images/**',   filters: 'none'],
-	[pattern: '/**/favicon.ico', filters: 'none'],
-	[pattern: '/**',             filters: 'JOINED_FILTERS']
+        [pattern: '/api/**',      filters: 'JOINED_FILTERS'],
+        [pattern: '/**',      filters: 'JOINED_FILTERS, -basicAuthenticationFilter, -basicExceptionTranslationFilter'],
+        [pattern: '/assets/**',      filters: 'none'],
+        [pattern: '/**/js/**',       filters: 'none'],
+        [pattern: '/**/css/**',      filters: 'none'],
+        [pattern: '/**/images/**',   filters: 'none'],
+        [pattern: '/**/favicon.ico', filters: 'none']
 ]

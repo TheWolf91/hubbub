@@ -1,11 +1,11 @@
 <!doctype html>
-<html>
+<html ${pageProperty(name: 'page.htmlAttrs')}>
 <head>
     <title>Hubbub &raquo; <g:layoutTitle default="Welcome" /></title>
-    <g:external dir="css" file="hubbub.css"/>
-    <g:external dir="css" file="main.css"/>
+    <asset:stylesheet src="application.css"/>
     <g:external dir="css" file="bootstrap.min.css"/>
-    <asset:javascript src="application.js"/>
+    <g:external dir="css" file="main.css"/>
+    <asset:javascript src="application"/>
 </head>
 <body>
 <div>

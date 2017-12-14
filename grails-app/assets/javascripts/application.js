@@ -6,7 +6,11 @@
 // to create separate JavaScript files as needed.
 //
 //= require jquery-2.2.0.min
-//= require bootstrap
+//= require bootstrap.min
+//= require angular-1.2
+//= require hubbub
+//= require lodash-4.17.4
+//= require restangular-1.6.1
 //= require_tree .
 //= require_self
 

@@ -70,4 +70,13 @@ class PostController {
         [posts : Post.list(params), postCount : Post.count()]
     }
 
+    def singlepage() {
+        def user = params.id ? User.findByLoginId(params.id) : springSecurityService.currentUser
+        if (!user) {
+            response.sendError(404)
+        } else {
+            [ user : user ]
+        }
+    }
+
 }
