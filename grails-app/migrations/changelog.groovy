@@ -223,4 +223,5 @@ databaseChangeLog = {
     changeSet(author: "The_Wolf (generated)", id: "1512491615228-21") {
         addForeignKeyConstraint(baseColumnNames: "tag_id", baseTableName: "post_tags", constraintName: "FKp7cfgjsujc2vl3p88qfqkpws6", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "id", referencedTableName: "tag")
     }
+    include file: 'reply-domain.groovy'
 }

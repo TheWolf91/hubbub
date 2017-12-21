@@ -1,3 +1,9 @@
 2017-12-05 17:34:25 jdbc[7]: exception
 org.h2.jdbc.JdbcSQLException: Table "DATABASECHANGELOGLOCK" not found; SQL statement:
 select count(*) from PUBLIC.DATABASECHANGELOGLOCK [42102-196]
+2017-12-19 16:53:49 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLException: Table "QRTZ_JOB_DETAILS" not found; SQL statement:
+SELECT JOB_NAME, JOB_GROUP FROM QRTZ_JOB_DETAILS WHERE SCHED_NAME = 'quartzScheduler' AND JOB_GROUP LIKE ? [42102-196]
+2017-12-19 17:28:52 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLException: Table "QRTZ_JOB_DETAILS" not found; SQL statement:
+SELECT JOB_NAME, JOB_GROUP FROM QRTZ_JOB_DETAILS WHERE SCHED_NAME = 'quartzScheduler' AND JOB_GROUP LIKE ? [42102-196]

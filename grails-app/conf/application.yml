@@ -152,3 +152,8 @@ grails:
   plugin:
     databasemigration.updateOnStart: true
     databasemigration.updateOnStartFileNames: changelog.groovy
+
+---
+quartz:
+  autoStartup: false
+  jdbcStore: false
