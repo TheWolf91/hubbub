@@ -14,6 +14,7 @@
             <g:img id="logo" dir="images" file="headerlogo.png" alt="hubbub logo"/>
         </g:link>
     </div>
+    <redis:memoize key="hubbubCount" expire="60000"><div class="pull-right">Hubbub has currently ${com.wolf.User.count()} users</div></redis:memoize>
     <nav class="nav navbar">
         <ul>
             <li><g:link controller="post" action="personal">My Timeline</g:link></li>

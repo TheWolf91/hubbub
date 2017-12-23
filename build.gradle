@@ -74,6 +74,12 @@ dependencies {
     // REDIS DB
     compile 'org.grails.plugins:redis:2.0.4'
 
+    // MONGODB
+    compile 'org.grails.plugins:mongodb:6.1.4'
+
+    // NEO4J
+    compile 'org.grails.plugins:neo4j:6.1.5'
+
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"

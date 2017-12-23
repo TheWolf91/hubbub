@@ -1,7 +1,6 @@
 package com.wolf
 
 import grails.gorm.transactions.Transactional
-import java.util.concurrent.Callable
 
 @Transactional
 class JabberService {
