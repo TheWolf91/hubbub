@@ -10,7 +10,7 @@ beans = {
 
     jmsConnectionFactory(SingleConnectionFactory) {
         targetConnectionFactory = { ActiveMQConnectionFactory cf ->
-            brokerURL = "tcp://localhost:61616?threadName&trace=false&soTimeout=60000"
+            brokerURL = "vm://localhost"
         }
     }
 }

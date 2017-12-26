@@ -78,7 +78,8 @@ dependencies {
     compile 'org.grails.plugins:mongodb:6.1.4'
 
     // NEO4J
-    compile 'org.grails.plugins:neo4j:6.1.5'
+//    compile 'org.grails.plugins:neo4j:6.1.5'
+//    compile group: 'org.neo4j.test', name: 'neo4j-harness', version: '3.3.1'
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"

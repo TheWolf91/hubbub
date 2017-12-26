@@ -1,7 +1,4 @@
 package com.wolf
-
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
 import grails.compiler.GrailsCompileStatic
 
 class User implements Serializable {
